@@ -8,14 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.JOptionPane;
 
+import Modelo.LibroDAO;
+import Modelo.LibroDTO;
+import Modelo.PrestamosDAO;
+import Modelo.PrestamosDTO;
+
 /**
  * Servlet implementation class Prestamos
  */
 @WebServlet("/Prestamos")
 public class Prestamos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Controlador.HttpServletRequest request;
-
+	
     /**
      * Default constructor. 
      */
@@ -27,8 +31,39 @@ public class Prestamos extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.request = request;
-		JOptionPane.showMessageDialog(null, "hola mundo");
-	}
+		
+		if(request.getParameter("consultarLib")!=null) {
+			
+			String isbn=request.getParameter("isbn");
+			LibroDAO libDao= new LibroDAO();
+			LibroDTO lib= libDao.Buscar_Libro(isbn);
+			if(lib!=null) {
+			isbn=lib.getIsbn();
+			String titulo=lib.getTitulo();
+			response.sendRedirect("Prestamos.jsp?codigo="+isbn+"&&titulo="+titulo);
+			}else
+			{
+				response.sendRedirect("Prestamos.jsp?men=El Libro no Existe");
+			}
+		}
+		
+		
+		if(request.getParameter("registrar")!=null) {
+			
+			String isbn,estudiante,fecha;
+			isbn=request.getParameter("isbn");
+			estudiante=request.getParameter("est");
+			fecha=request.getParameter("fecha");
+			PrestamosDTO p= new PrestamosDTO(estudiante,isbn,fecha);
+			PrestamosDAO pDao= new PrestamosDAO();
+			if(pDao.Inserta_Prestamo(p)) {
+				response.sendRedirect("Prestamos.jsp?men=Prestamo Registrado Exitosamente");
+			}
+			else {
+				response.sendRedirect("Prestamos.jsp?men=El Prestamo no se Registro");
+			}
+		}
+	
 
+}
 }
