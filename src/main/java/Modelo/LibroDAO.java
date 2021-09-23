@@ -86,6 +86,21 @@ public class LibroDAO {
 		}
 		return resul;
 	}
+	
+	public boolean Cargar_Libros(String Ruta) {
+		
+		boolean resul=false;
+		
+		try {
+		String sql="load data infile '"+Ruta+"' into table libro fields terminated by ',' lines terminated by '\r\n';";
+		ps=conec.prepareStatement(sql);
+		resul=ps.executeUpdate()>0;
+		}catch(SQLException ex) {
+			JOptionPane.showMessageDialog(null,"Error al Cargar libros:   "+ex);
+		}
+		
+		return resul;
+	}
 }
 
 

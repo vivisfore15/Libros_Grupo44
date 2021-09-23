@@ -1,11 +1,17 @@
 package Controlador;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 //import javax.swing.JOptionPane;
 import javax.swing.JOptionPane;
 
@@ -16,6 +22,7 @@ import Modelo.LibroDTO;
  * Servlet implementation class Libros
  */
 @WebServlet("/Libros")
+@MultipartConfig
 public class Libros extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -110,6 +117,47 @@ public class Libros extends HttpServlet {
 				response.sendRedirect("Libros.jsp");
 			}
 		}
+		
+		
+		if(request.getParameter("cargar")!=null) {
+			
+			Part archivo= request.getPart("archivo");
+			//String Url="C:\\Users\\vivis\\eclipse-workspace\\Prestamos_44\\src\\main\\webapp\\Documentos\\";
+			String Url="C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/";
+			
+			try {
+			InputStream file= archivo.getInputStream();
+			File copia = new File(Url+"prueba.csv");
+			FileOutputStream escribir= new FileOutputStream(copia);
+			int num= file.read();
+			while(num != -1) {
+			 escribir.write(num);
+			 num=file.read();
+	      	}
+			escribir.close();
+			file.close();
+			JOptionPane.showMessageDialog(null, "Se Cargo el Archivo Correctamente.");
+			if(libDao.Cargar_Libros(Url+"prueba.csv")) {
+				response.sendRedirect("Libros.jsp?men=Se Inserto Los Libros Correctamente");
+			}else
+			{
+				response.sendRedirect("Libros.jsp?men=No se Insertgo los Libros");
+			}
+			}catch(Exception e) {
+				JOptionPane.showMessageDialog(null, "Error de Archivo....."+e);
+			}
+		}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 	}
 
 }
