@@ -39,6 +39,33 @@ public class PrestamosDAO {
 	 ps=conec.prepareStatement(sql);
 	 ps.setInt(1, codigo);
 	 resul=ps.executeUpdate()>0;
+	 
+	 //Consultar precio del libro que se presto
+	 sql="select precio_prestamo from libro where isbn=?";	
+	 ps=conec.prepareStatement(sql);
+	 ps.setString(1, p.getLibro() );
+	 res=ps.executeQuery();
+	 int precio=0;
+	 while(res.next()) {
+	  precio=res.getInt(1); 
+	 }
+	 
+	 //Cantidad de veces que se ha prestado ese libro
+	 sql="select count(libro) from prestamos group by libro having libro=?";	
+	 ps=conec.prepareStatement(sql);
+	 ps.setString(1, p.getLibro() );
+	 res=ps.executeQuery();
+	 int cantidad=0;
+	 while(res.next()) {
+	  cantidad=res.getInt(1); 
+	 }
+	 
+	 sql="Update libro set Acumulado=?*? where isbn=?";
+	 ps=conec.prepareStatement(sql);
+	 ps.setInt(1, precio);
+	 ps.setInt(2, cantidad);
+	 ps.setString(3, p.getLibro());
+	 resul=ps.executeUpdate()>0;
 	}
 	}catch(SQLException ex){
 		JOptionPane.showMessageDialog(null,"Error al registra prestamo" +ex);
