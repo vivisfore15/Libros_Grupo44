@@ -1,12 +1,17 @@
 package Controlador;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.JOptionPane;
+
+import com.google.gson.Gson;
 
 import Modelo.LibroDAO;
 import Modelo.LibroDTO;
@@ -63,6 +68,15 @@ public class Prestamos extends HttpServlet {
 				response.sendRedirect("Prestamos.jsp?men=El Prestamo no se Registro");
 			}
 		}
+		
+		//Manejo de formato Json con Gson
+		ArrayList<LibroDTO> lista= new ArrayList<>();
+		LibroDAO libDao= new LibroDAO();
+		lista=libDao.cargarLibros();
+		PrintWriter salida= response.getWriter();
+		Gson datos=new Gson();
+		salida.println(datos.toJson(lista));
+		
 	
 
 }

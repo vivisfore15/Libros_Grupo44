@@ -4,6 +4,8 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="js/Prestamos.js"></script>
 <title>Registrar Prestamos</title>
 </head>
 <body>
@@ -22,7 +24,7 @@ out.print("<script>alert('"+mensaje+"');</script>");
 }
 %>
 <form action="Prestamos" method="post">
-<div><label>Codigo Libro: </label><input type="text" name="isbn" required>
+<div><label>Codigo Libro: </label><select id="listaLibros" name="codigo"></select>
 <input type="submit" name="consultarLib" value="Consultar"></div>
 </form>
 <form action="Prestamos" method="post">
