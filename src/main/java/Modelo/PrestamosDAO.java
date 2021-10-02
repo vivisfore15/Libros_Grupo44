@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -71,6 +72,27 @@ public class PrestamosDAO {
 		JOptionPane.showMessageDialog(null,"Error al registra prestamo" +ex);
 	}
 	return resul;
+	}
+	
+	
+	
+	public ArrayList<PrestamosDTO> todosPrestamos(){
+		
+		PrestamosDTO pre=null;
+		ArrayList<PrestamosDTO> lista= new ArrayList<>();
+		try {
+		String sql="select * from prestamos";
+		ps=conec.prepareStatement(sql);
+		res=ps.executeQuery();
+		while(res.next()) {
+			pre=new PrestamosDTO(res.getInt(1),res.getString(2),res.getString(3),res.getString(4),res.getString(5));
+			lista.add(pre);
+		}
+			
+		}catch(SQLException ex) {
+			JOptionPane.showMessageDialog(null,"Error al consultar prestamos" +ex);
+		}
+		 return lista;
 	}
 	
 }

@@ -24,7 +24,7 @@ out.print("<script>alert('"+mensaje+"');</script>");
 }
 %>
 <form action="Prestamos" method="post">
-<div><label>Codigo Libro: </label><select id="listaLibros" name="codigo"></select>
+<div><label>Codigo Libro: </label><select id="listaLibros" name="isbn"></select>
 <input type="submit" name="consultarLib" value="Consultar"></div>
 </form>
 <form action="Prestamos" method="post">

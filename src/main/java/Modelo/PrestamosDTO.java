@@ -14,6 +14,17 @@ public class PrestamosDTO {
 		Libro = libro;
 		Fecha_p = fecha_p;
 	}
+	
+	
+	public PrestamosDTO(int id_Prestamo, String estudiante, String libro, String fecha_p, String fecha_d) {
+		Id_Prestamo = id_Prestamo;
+		Estudiante = estudiante;
+		Libro = libro;
+		Fecha_p = fecha_p;
+		Fecha_d = fecha_d;
+	}
+
+
 
 
 	public int getId_Prestamo() {

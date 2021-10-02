@@ -10,12 +10,11 @@ $.ajax({
 	dataType: "json",
 	success: function(result){
 		console.log(result)
-		let datos=document.querySelector("#listaLibros")
+		let datos=document.getElementById("listaLibros")
 		console.log(datos)
-		datos='';
+		datos.innerHTML='';
 		for(let i of result){
 			datos.innerHTML+=`<option value="${i.Isbn}">${i.Titulo}</option>`;
-			
 			}
 	}
 })	
